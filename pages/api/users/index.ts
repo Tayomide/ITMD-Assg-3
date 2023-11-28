@@ -1,13 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { sampleUserData } from '../../../utils/sample-data'
 
-const handler = (_req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (!Array.isArray(sampleUserData)) {
-      throw new Error('Cannot find user data')
-    }
+    const req = await fetch('https://jsonplaceholder.typicode.com/users')
+    const data = await req.json()
 
-    res.status(200).json(sampleUserData)
+    res.status(200).json(data)
   } catch (err: any) {
     res.status(500).json({ statusCode: 500, message: err.message })
   }

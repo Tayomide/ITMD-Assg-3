@@ -1,9 +1,9 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
 
 import { User } from '../../interfaces'
-import { sampleUserData } from '../../utils/sample-data'
 import Layout from '../../components/Layout'
 import ListDetail from '../../components/ListDetail'
+import { getUserList } from '.'
 
 type Props = {
   item?: User
@@ -36,7 +36,8 @@ export default StaticPropsDetail
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Get the paths we want to pre-render based on users
-  const paths = sampleUserData.map((user) => ({
+  const data = await getUserList()
+  const paths = data.map((user: User) => ({
     params: { id: user.id.toString() },
   }))
 
@@ -50,8 +51,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 // direct database queries.
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const id = params?.id
-    const item = sampleUserData.find((data) => data.id === Number(id))
+    const id = Number(params?.id)
+    const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+    const item = await res.json()
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
     return { props: { item } }

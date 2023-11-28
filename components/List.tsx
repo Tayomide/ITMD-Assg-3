@@ -9,7 +9,7 @@ type Props = {
 const List = ({ items }: Props) => (
   <ul>
     {items.map((item) => (
-      <li key={item.id}>
+      <li key={item.id} className="pl-4 mb-1 cursor-pointer hover:bg-gray-200 transition duration-300 ease-in-out">
         <ListItem data={item} />
       </li>
     ))}
