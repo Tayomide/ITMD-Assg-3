@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sampleUserData } from '../../../utils/sample-data'
 
 const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
   try {
